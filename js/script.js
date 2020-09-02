@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     $('#search-button').click(function () {
+        $('main .movie').empty();
 
         var input = $('#search').val();
 
@@ -16,23 +17,28 @@ $(document).ready(function() {
 
                 var response = data.results;
 
-                for (var i = 0; i < response.length; i++) {
-
-                    var context = {
+                if (response.length == 0) {
+                    var source = $('#no-result-template').html();
+                    var template = Handlebars.compile(source);
+                    var html = template(context);
+                    $('.movies').append(html);
+                }else{
+                    for (var i = 0; i < response.length; i++) {
+                        var context = {
                         poster_path: response[i].poster_path,
                         title: response[i].title,
                         original_title: response[i].original_title,
                         original_language: response[i].original_language,
                         vote_average: response[i].vote_average
+                        };
+                        console.log(context);
+                        var source = $('#movie-template').html();
+                        var template = Handlebars.compile(source);
+                        var html = template(context);
+                        $('.movies').append(html);
                     }
-                    console.log(context);
-
-                    var source = $('#movie-template').html();
-                    var template = Handlebars.compile(source);
-
-                    var html = template(context);
-                    $('.movies').append(html);
                 }
+
             },
             'error': function () {
                 alert('Error!');

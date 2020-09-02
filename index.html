@@ -11,23 +11,32 @@
         <title>Template</title>
     </head>
     <body>
-        <div class="search">
-            <input id="search" type="text" name="search" value="">
-            <button id="search-button" type="button" name="button">search</button>
-        </div>
-
-        <main>
-            <div class="movies">
-
+        <div class="container">
+            <h1>BOOLFLIX</h1>
+            <div class="search">
+                <input id="search" type="text" name="search" value="">
+                <button id="search-button" type="button" name="button">search</button>
             </div>
-        </main>
+
+            <main>
+                <div class="movies">
+
+                </div>
+            </main>
+
+        </div>
 
         <script id="movie-template" type="text/x-handlebars-template">
             <div class="movie">
                 <h2>{{title}}</h2>
                 <h3>Titolo Orgininale {{original_title}}</h3>
-                <p>Lingua origina: {{original_language}}</p>
+                <p>Lingua originale: {{original_language}}</p>
                 <p>Voto: {{vote_average}}</p>
+            </div>
+        </script>
+        <script id="no-result-template" type="text/x-handlebars-template">
+            <div class="no-result">
+                <p>La ricerca non ha nessun risultato</p>
             </div>
         </script>
 
