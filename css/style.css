@@ -13,11 +13,35 @@
 body {
     background-color: black;
     color: white;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .container {
     width: 1200px;
     margin: 0 auto;
+
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+
+
+.movie {
+    height: 200px;
+    display: flex;
+}
+
+.movie .poster img{
+    height: 180px;
+}
+
+.details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
 }
 
 h1 {
