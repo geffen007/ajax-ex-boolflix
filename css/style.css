@@ -9,3 +9,12 @@
     display: table;
     clear: both;
 }
+
+body {
+    background-color: black;
+    color: white;
+}
+
+h2 {
+    color: red;
+}

@@ -17,13 +17,15 @@ $(document).ready(function() {
                 var response = data.results;
 
                 for (var i = 0; i < response.length; i++) {
-                    
+
                     var context = {
+                        poster_path: response[i].poster_path,
                         title: response[i].title,
                         original_title: response[i].original_title,
                         original_language: response[i].original_language,
                         vote_average: response[i].vote_average
                     }
+                    console.log(context);
 
                     var source = $('#movie-template').html();
                     var template = Handlebars.compile(source);
