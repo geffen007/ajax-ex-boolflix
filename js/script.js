@@ -1,10 +1,27 @@
 $(document).ready(function() {
 
     $('#search-button').click(function () {
-        reset($('main .movies'));
-        var input = $('#search').val();
-        search(input);
-        $('input#search').val('')
+        $('#search').toggle();
+        $('.search').toggleClass('whiteB')
+
+        if($('#search').val()!='') {
+            var input = $('#search').val();
+            search(input);
+            reset();
+        }
+
+    });
+
+    $('#search').keydown(function () {
+        if(event.which==13){
+            var input = $('#search').val();
+            search(input);
+            reset();
+            $('input#search').val('');
+            $('#search').toggle();
+            $('.search').removeClass('whiteB')
+
+        }
     });
 
 });
@@ -23,23 +40,21 @@ function search(input){
             var response = data.results;
 
             if (response.length == 0) {
-                var source = $('#no-result-template').html();
-                var template = Handlebars.compile(source);
-                var html = template(context);
-                $('.movies').append(html);
+                noResult();
             } else {
                 handlebars(response);
             }
 
         },
         'error': function () {
-            alert('Error!');
+            noResult();
         },
     });
 }
 
-function reset(what){
-    what.empty();
+function reset(){
+    $('main .movies').empty();
+    $('input#search').val('');
 }
 
 function handlebars(resp){
@@ -49,12 +64,30 @@ function handlebars(resp){
         title: resp[i].title,
         original_title: resp[i].original_title,
         original_language: resp[i].original_language,
-        vote_average: resp[i].vote_average
+        vote_average: stars(resp[i].vote_average)
         };
-        console.log(context);
         var source = $('#movie-template').html();
         var template = Handlebars.compile(source);
         var html = template(context);
         $('.movies').append(html);
     }
+}
+
+function noResult(){
+    var source = $('#no-result-template').html();
+    $('.movies').append(source);
+}
+
+function stars(num){
+    num = num / 2;
+    num = Math.round(num);
+    var star='';
+    for (var i = 0; i < 5; i++) {
+        if (num>i){
+            star+='<i class="fas fa-star"></i>';
+        } else {
+            star+='<i class="far fa-star"></i>';
+        }
+    }
+    return star;
 }

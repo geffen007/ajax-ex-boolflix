@@ -27,6 +27,37 @@ header {
     justify-content: center;
 }
 
+header>img{
+    width: 400px;
+}
+
+.search {
+    /* transition-duration: 0.8s;
+    transform: scale(1.2);
+    padding: 5px; */
+    width: 20px;
+}
+
+.whiteB{
+    border: 1px solid white;
+    transition-duration: 0.4s;
+    transform: scale(1.2);
+    padding: 5px;
+    width: 300px;
+}
+
+#search {
+    background-color: black;
+    color: white;
+    border: none;
+    width: 260px;
+    display: none;
+}
+
+
+.hidden  {
+    display: none;
+}
 
 .movie {
     height: 200px;
@@ -35,6 +66,10 @@ header {
 
 .movie .poster img{
     height: 180px;
+}
+
+p.voto {
+    color: yellow;
 }
 
 .details{
@@ -51,4 +86,8 @@ h1 {
 
 h2 {
     color:#d91f27;
+}
+
+.template {
+    display: none;
 }

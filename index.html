@@ -17,8 +17,8 @@
                 <img id="header-logo" src="img/logo.png" alt="logo">
             </header>
             <div class="search">
-                <input id="search" type="text" name="search" value="">
-                <button id="search-button" type="button" name="button">search</button>
+                <i id="search-button" class="fas fa-search"></i>
+                <input id="search" class="hidden w" type="text" name="search" placeholder="Cerca Film" value="">
             </div>
 
             <main>
@@ -36,15 +36,18 @@
                     <h2>{{title}}</h2>
                     <p>Titolo Orgininale: {{original_title}}</p>
                     <p>Lingua originale: {{original_language}}</p>
-                    <p>Voto: {{vote_average}}</p>
+                    <p class="voto">Voto: {{{vote_average}}}</p>
                 </div>
             </div>
         </script>
-        <script id="no-result-template" type="text/x-handlebars-template">
-            <div class="no-result">
-                <p>La ricerca non ha nessun risultato</p>
+
+        <div class="template">
+            <div id="no-result-template" type="text/x-handlebars-template">
+                <div class="no-result">
+                    <p>La ricerca non ha nessun risultato</p>
+                </div>
             </div>
-        </script>
+        </div>
 
         <script src="js/script.js" charset="utf-8"></script>
     </body>
