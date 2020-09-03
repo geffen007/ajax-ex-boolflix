@@ -10,15 +10,17 @@ $(document).ready(function() {
     $('#search').keydown(function () {
         if(event.which == 13 && $('#search').val()!=''){
             var input = $('#search').val();
+            reset();
             searchMovie(input);
             searchTv(input);
-            reset();
-            $('input#search').val('');
+            console.log(($('.movie').length))
+            // noResult();
             $('#search').toggle();
             $('.search').removeClass('whiteB');
             $('#search-button').toggle();
-            noResult();
+            ;
         }
+        console.log(($('.movie').length));
     });
 
 });
@@ -54,6 +56,7 @@ function searchTv(input){
         'success': function(data) {
             var response = data.results;
             handlebars(response);
+            noResult();
         },
         'error': function () {
             alert('error');
