@@ -59,15 +59,22 @@ header>img{
     display: flex;
 }
 
-.movie .poster img{
+.movie .poster{
     height: 180px;
+    width: 120px;
+}
+
+.poster img {
+    height: 100%;
+    width: 100%;
+}
+
+.lang {
+    padding: 10px;
 }
 .lang img{
     height: 24px;
-
 }
-
-
 
 p.voto {
     color: yellow;

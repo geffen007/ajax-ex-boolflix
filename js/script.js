@@ -4,6 +4,7 @@ $(document).ready(function() {
         $('#search').toggle();
         $('.search').toggleClass('whiteB');
         $('input').focus();
+        $('#search-button').toggle();
     });
 
     $('#search').keydown(function () {
@@ -15,6 +16,7 @@ $(document).ready(function() {
             $('input#search').val('');
             $('#search').toggle();
             $('.search').removeClass('whiteB');
+            $('#search-button').toggle();
             noResult();
         }
     });
@@ -91,7 +93,6 @@ function movieOrTv(resp, resp2){
 }
 
 function noResult(){
-    console.log($('.movie').length);
     if(($('.movie').length)==0){
         $('.movies').append($('#no-result-template').html());
     }
@@ -147,6 +148,6 @@ function altFlag(iso){
     } else if (iso == 'it'){
         return 'bandiera italiana';
     } else {
-        return 'str';
+        return iso;
     }
 }
