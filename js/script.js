@@ -2,14 +2,14 @@ $(document).ready(function() {
 
     $('#search-button').click(function () {
         $('#search').toggle();
-        $('.search').toggleClass('whiteB')
+        $('.search').toggleClass('whiteB');
+        $('input').focus();
 
         if($('#search').val()!='') {
             var input = $('#search').val();
             search(input);
             reset();
         }
-
     });
 
     $('#search').keydown(function () {
@@ -19,8 +19,7 @@ $(document).ready(function() {
             reset();
             $('input#search').val('');
             $('#search').toggle();
-            $('.search').removeClass('whiteB')
-
+            $('.search').removeClass('whiteB');
         }
     });
 
@@ -63,7 +62,8 @@ function handlebars(resp){
         poster_path: resp[i].poster_path,
         title: resp[i].title,
         original_title: resp[i].original_title,
-        original_language: resp[i].original_language,
+        original_language: flag(resp[i].original_language),
+        altFlag: altFlag(resp[i].original_language),
         vote_average: stars(resp[i].vote_average)
         };
         var source = $('#movie-template').html();
@@ -90,4 +90,45 @@ function stars(num){
         }
     }
     return star;
+}
+
+// mezza stella
+// function stars (num){
+//     var num = Math.round(num);
+//     var modNum= num%2;
+//     var halfNum= Math.floor(num/2);
+//     console.log(halfNum);
+//
+//     var star= '';
+//     for (var i = 0; i < 5; i++) {
+//         if (halfNum > i) {
+//             star += '<i class="fas fa-star"></i>';
+//         } else if(modNum!=0){
+//             star += '<i class="fas fa-star-half-alt"></i>';
+//             modNum=0;
+//         }else {
+//             star+='<i class="far fa-star"></i>';
+//         }
+//     }
+//     return star;
+// }
+
+function flag(iso){
+    if(iso == 'en'){
+        return 'en';
+    } else if (iso == 'it'){
+        return 'it';
+    } else {
+        $('p.lang').text('Lingua originale: '+ iso);
+    }
+}
+
+function altFlag(iso){
+    if(iso == 'en'){
+        return 'bandiera inglese';
+    } else if (iso == 'it'){
+        return 'bandiera italiana';
+    }else {
+        return;
+    }
 }
