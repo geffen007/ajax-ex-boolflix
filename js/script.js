@@ -12,15 +12,11 @@ $(document).ready(function() {
             var input = $('#search').val();
             reset();
             searchMovie(input);
-            searchTv(input);
-            console.log(($('.movie').length))
-            // noResult();
             $('#search').toggle();
             $('.search').removeClass('whiteB');
             $('#search-button').toggle();
             ;
         }
-        console.log(($('.movie').length));
     });
 
 });
@@ -37,6 +33,7 @@ function searchMovie(input){
         'success': function(data) {
             var response = data.results;
             handlebars(response);
+            searchTv(input);
         },
         'error': function () {
             alert('error');
@@ -77,13 +74,22 @@ function handlebars(resp){
         original_title: movieOrTv(resp[i].original_title, resp[i].original_name),
         original_language: flag(resp[i].original_language),
         altFlag: altFlag(resp[i].original_language),
-        vote_average: stars(resp[i].vote_average)
+        vote_average: stars(resp[i].vote_average),
+        genre: genre(resp[i].title, resp[i].name)
         };
         var source = $('#movie-template').html();
         var template = Handlebars.compile(source);
         var html = template(context);
         $('.movies').append(html);
 
+    }
+}
+
+function genre(resp, resp2){
+    if (resp) {
+        return 'Film';
+    } else {
+        return 'Serie TV';
     }
 }
 
