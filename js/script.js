@@ -1,26 +1,10 @@
 $(document).ready(function() {
 
-    $('#search-button').mouseover(function () {
-        $('#search').toggle();
-        $('.search').toggleClass('whiteB');
-        $('input').focus();
-        $('#search-button').toggle();
-    });
-    $('#search').mouseleave(function () {
-        $('#search').toggle();
-        $('.search').toggleClass('whiteB');
-        $('#search-button').toggle();
-    });
-
-
     $('#search').keydown(function () {
         if(event.which == 13 && $('#search').val()!=''){
             var input = $('#search').val();
             reset();
             searchMovie(input);
-            $('#search').toggle();
-            $('.search').removeClass('whiteB');
-            $('#search-button').toggle();
         }
     });
 

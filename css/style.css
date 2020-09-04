@@ -25,30 +25,41 @@ body {
 
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 20px 60px;
 }
 
 header>img{
-    width: 400px;
+    height: 30px;
 }
 
-.search {
-    padding: 5px;
-    width: 300px;
+.search-div {
+    height: 35px;
+    width: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    transition: 0.6s;
+    padding-left: 6px;
 }
 
-.whiteB{
+.search-div:hover {
     border: 1px solid white;
-    transition-duration: 0.4s;
-    width: 300px;
+    width: 350px;
 }
 
-#search {
-    background-color: black;
-    color: white;
+.s-input {
+    width: 330px;
     border: none;
-    width: 260px;
-    display: none;
+    background-color: black;
+    height: 30px;
+    transition: 1s;
+    color: black;
+    padding-left: 10px;
+}
+
+.s-input:hover{
+    color: white;
 }
 
 .movies {
