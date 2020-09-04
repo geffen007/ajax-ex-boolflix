@@ -17,9 +17,10 @@ body {
 }
 
 .container {
-    width: 1200px;
+    width: calc(100vw - 20px);
+    height: 100vh;
+    overflow: auto;
     margin: 0 auto;
-
 }
 
 header {
@@ -50,18 +51,45 @@ header>img{
     display: none;
 }
 
-.hidden  {
-    display: none;
-}
-
-.movie {
-    height: 200px;
+.movies {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.movie .poster{
-    height: 180px;
-    width: 120px;
+.cover {
+    height: 456px;
+    width: 342px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5px;
+    position: relative;
+    transition: 0.5s;
+}
+
+.cover:hover{
+    transform:scale(1.2);
+    z-index: 3;
+}
+
+.cover .details{
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+}
+
+.cover .details:hover {
+    opacity: 1;
+}
+
+.cover .poster{
+    height: auto;
+    position: absolute;
+    z-index: 1;
+    height: calc(100% - 10px);
+    width: calc(100% - 10px);
 }
 
 .poster img {
@@ -76,7 +104,7 @@ header>img{
     height: 24px;
 }
 
-p.voto i {
+p.voto  {
     color: #d91f27;
 }
 
@@ -97,5 +125,9 @@ h2 {
 }
 
 .template {
+    display: none;
+}
+
+.hidden  {
     display: none;
 }

@@ -1,11 +1,17 @@
 $(document).ready(function() {
 
-    $('#search-button').click(function () {
+    $('#search-button').mouseover(function () {
         $('#search').toggle();
         $('.search').toggleClass('whiteB');
         $('input').focus();
         $('#search-button').toggle();
     });
+    $('#search').mouseleave(function () {
+        $('#search').toggle();
+        $('.search').toggleClass('whiteB');
+        $('#search-button').toggle();
+    });
+
 
     $('#search').keydown(function () {
         if(event.which == 13 && $('#search').val()!=''){
@@ -15,9 +21,9 @@ $(document).ready(function() {
             $('#search').toggle();
             $('.search').removeClass('whiteB');
             $('#search-button').toggle();
-            ;
         }
     });
+
 
 });
 
@@ -69,7 +75,7 @@ function reset(){
 function handlebars(resp){
     for (var i = 0; i < resp.length; i++) {
         var context = {
-        poster_path: resp[i].poster_path,
+        poster_path: poster(resp[i].poster_path),
         title: movieOrTv(resp[i].title, resp[i].name),
         original_title: movieOrTv(resp[i].original_title, resp[i].original_name),
         original_language: flag(resp[i].original_language),
@@ -102,7 +108,7 @@ function movieOrTv(resp, resp2){
 }
 
 function noResult(){
-    if(($('.movie').length)==0){
+    if(($('.cover').length)==0){
         $('.movies').append($('#no-result-template').html());
     }
 }
@@ -159,4 +165,13 @@ function altFlag(iso){
     } else {
         return iso;
     }
+}
+
+function poster(link){
+    if(link == null){
+        link = 'img/no-image.jpg';
+    } else {
+        link = 'https://image.tmdb.org/t/p/w342'+link;
+    }
+    return link;
 }
