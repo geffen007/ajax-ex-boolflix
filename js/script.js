@@ -1,39 +1,19 @@
 $(document).ready(function() {
 
     $('#search').keydown(function () {
-        if(event.which == 13 && $('#search').val()!=''){
+            if(event.which == 13 && $('#search').val()!=''){
             var input = $('#search').val();
             reset();
-            searchMovie(input);
+            search(input, 'movie');
+            search(input, 'tv');
         }
     });
-
-
 });
 
-function searchMovie(input){
-    $.ajax ({
-        'url': 'https://api.themoviedb.org/3/search/movie',
-        'method': 'GET',
-        'data': {
-            'api_key': 'c4427306a0b122697ced9f53faf32324',
-            'query': input,
-            'language': 'it-IT'
-        },
-        'success': function(data) {
-            var response = data.results;
-            handlebars(response);
-            searchTv(input);
-        },
-        'error': function () {
-            alert('error');
-        },
-    });
-}
+function search(input, type){
 
-function searchTv(input){
     $.ajax ({
-        'url': 'https://api.themoviedb.org/3/search/tv',
+        'url': 'https://api.themoviedb.org/3/search/'+type,
         'method': 'GET',
         'data': {
             'api_key': 'c4427306a0b122697ced9f53faf32324',
@@ -41,9 +21,13 @@ function searchTv(input){
             'language': 'it-IT'
         },
         'success': function(data) {
-            var response = data.results;
-            handlebars(response);
-            noResult();
+            if (data.total_results != 0){
+                var response = data.results;
+                handlebars(response);
+            } else {
+                noResult();
+            }
+
         },
         'error': function () {
             alert('error');
@@ -60,18 +44,18 @@ function handlebars(resp){
     for (var i = 0; i < resp.length; i++) {
         var context = {
         poster_path: poster(resp[i].poster_path),
-        title: movieOrTv(resp[i].title, resp[i].name),
-        original_title: movieOrTv(resp[i].original_title, resp[i].original_name),
+        title: resp[i].title || resp[i].name,
+        original_title: resp[i].original_title || resp[i].original_name,
         original_language: flag(resp[i].original_language),
         altFlag: altFlag(resp[i].original_language),
         vote_average: stars(resp[i].vote_average),
-        genre: genre(resp[i].title, resp[i].name)
+        genre: genre(resp[i].title, resp[i].name),
+        overview: overview(resp[i].overview)
         };
         var source = $('#movie-template').html();
         var template = Handlebars.compile(source);
         var html = template(context);
         $('.movies').append(html);
-
     }
 }
 
@@ -83,17 +67,10 @@ function genre(resp, resp2){
     }
 }
 
-function movieOrTv(resp, resp2){
-    if (resp) {
-        return resp
-    } else {
-        return resp2
-    }
-}
 
 function noResult(){
     if(($('.cover').length)==0){
-        $('.movies').append($('#no-result-template').html());
+        $('.movies').html($('#no-result-template'));
     }
 }
 
@@ -158,4 +135,13 @@ function poster(link){
         link = 'https://image.tmdb.org/t/p/w342'+link;
     }
     return link;
+}
+
+function overview(string){
+    if (string == ''){
+        string = 'no trama'
+    }else {
+        string = (string.substring(0, 120) + '...');
+    }
+    return string
 }
