@@ -23,6 +23,17 @@
 
 
             <main>
+                <aside>
+                    <div class="genres hideGenres">
+                        <div class="button"></div>
+                    </div>
+                    <div class="arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+
+                </aside>
+
                 <div class="movies">
 
                 </div>
@@ -47,6 +58,12 @@
                 </div>
             </div>
         </script>
+
+        <script id="genres-template" type="text/x-handlebars-template">
+            <button type="button" name="{{name}}">{{name}}</button>
+        </script>
+
+
 
         <div class="template">
             <div id="no-result-template" type="text/x-handlebars-template">

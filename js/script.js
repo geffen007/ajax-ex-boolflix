@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    arrayGenresTV();
+    $('aside .arrow').click(function(){
+        showGenres();
+    });
 
     $('#search').keydown(function () {
             if(event.which == 13 && $('#search').val()!=''){
@@ -8,11 +12,13 @@ $(document).ready(function() {
             search(input, 'tv');
         }
     });
+
+
 });
 
 function search(input, type){
     $.ajax ({
-        'url': 'https://api.themoviedb.org/3/search/'+type,
+        'url': 'https://api.themoviedb.org/3/search/'+ type,
         'method': 'GET',
         'data': {
             'api_key': 'c4427306a0b122697ced9f53faf32324',
@@ -22,10 +28,11 @@ function search(input, type){
         'success': function(data) {
             if (data.total_results != 0){
                 var response = data.results;
-                handlebars(response);
+                handlebars(response, type);
             } else {
                 noResult();
             }
+
         },
         'error': function () {
             alert('error');
@@ -38,30 +45,33 @@ function reset(){
     $('input#search').val('');
 }
 
-function handlebars(resp){
+function handlebars(resp, type){
     for (var i = 0; i < resp.length; i++) {
         var title = resp[i].title || resp[i].name;
+        var id = resp[i].id;
         var context = {
         poster_path: poster(resp[i].poster_path, title),
         title: title,
         original_title: resp[i].original_title || resp[i].original_name,
         original_language: flag(resp[i].original_language),
         vote_average: stars(resp[i].vote_average),
-        genre: genre(resp[i].title, resp[i].name),
-        overview: overview(resp[i].overview)
+        genre: genre(resp[i].title || resp[i].name),
+        overview: overview(resp[i].overview),
+        id : id,
         };
         var source = $('#movie-template').html();
         var template = Handlebars.compile(source);
         var html = template(context);
         $('.movies').append(html);
+        credits(type, id);
     }
 }
 
 function genre(resp, resp2){
     if (resp) {
-        return 'Film';
+        return 'movie';
     } else {
-        return 'Serie TV';
+        return 'tv';
     }
 }
 
@@ -116,4 +126,79 @@ function overview(string){
         string = (string.substring(0, 120) + '...');
     }
     return string
+}
+
+function credits(type,id){
+    $.ajax(
+        {
+            url: 'https://api.themoviedb.org/3/' + type + '/' + id,
+            method:'GET',
+            data:{
+                api_key:'6cdc8707c60410cd9aef476067301b80',
+                language:'it-IT'
+            },
+            append_to_response: 'credits',
+            success: function(resp){
+                var genres = resp.genres;
+            },
+            error: function(){
+                alert('Si è verificato un errore');
+            }
+        }
+    );
+}
+
+function arrayGenresTV() {
+        $.ajax(
+        {
+            url: 'https://api.themoviedb.org/3/genre/tv/list',
+            method:'GET',
+            data:{
+                api_key:'6cdc8707c60410cd9aef476067301b80',
+                language:'it-IT'
+            },
+            success: function(resp){
+                var genres = resp.genres;
+                printG(genres);
+
+            },
+            error: function(){
+                alert('Si è verificato un errore');
+            }
+        }
+    )
+
+}
+
+function printG(array){
+    for (var i = 0; i < array.length; i++) {
+        console.log(array[i]);
+
+        var context = {
+        id: array[i].id,
+        name:  array[i].name
+        };
+
+
+
+
+        var source = $('#genres-template').html();
+        var template = Handlebars.compile(source);
+        var html = template(context);
+        $('.genres .button').append(html);
+    }
+}
+
+function showGenres(){
+    $('aside').animate({width: '250px'}, 200);
+    $('aside .genres').toggle();
+
+
+    setTimeout(function(){
+        $('aside .button').slideDown();
+    }, 200);
+    $('.arrow').toggleClass('rotate');
+
+    // $('aside .arrow').animate({transform: rotate(180deg)});
+
 }
