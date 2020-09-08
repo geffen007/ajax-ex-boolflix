@@ -2,6 +2,14 @@ $(document).ready(function() {
     arrayGenres('movie');
     arrayGenres('tv');
 
+    var url= 'https://api.themoviedb.org/3/search/';
+    var urlTrend= 'https://api.themoviedb.org/3/trending/all/week';
+    search('*','', urlTrend);
+
+    var select= $('select.movie').change(function(){
+        console.log(select.val());
+    });
+
     $('aside .arrow').click(function(){
         showGenres();
     });
@@ -10,17 +18,15 @@ $(document).ready(function() {
             if(event.which == 13 && $('#search').val()!=''){
             var input = $('#search').val();
             reset();
-            search(input, 'movie');
-            search(input, 'tv');
+            search(input, 'movie', url);
+            search(input, 'tv', url);
         }
     });
-
-
 });
 
-function search(input, type){
+function search(input, type, url){
     $.ajax ({
-        'url': 'https://api.themoviedb.org/3/search/'+ type,
+        'url': url + type,
         'method': 'GET',
         'data': {
             'api_key': 'c4427306a0b122697ced9f53faf32324',
@@ -34,7 +40,6 @@ function search(input, type){
             } else {
                 noResult();
             }
-
         },
         'error': function () {
             alert('error');
@@ -51,6 +56,7 @@ function handlebars(resp, type){
     for (var i = 0; i < resp.length; i++) {
         var title = resp[i].title || resp[i].name;
         var id = resp[i].id;
+        var genre_ids = resp[i].genre_ids;
         var context = {
         poster_path: poster(resp[i].poster_path, title),
         title: title,
@@ -60,12 +66,14 @@ function handlebars(resp, type){
         genre: genre(resp[i].title || resp[i].name),
         overview: overview(resp[i].overview),
         id : id,
+        genre_ids: genre_ids,
         };
+
         var source = $('#movie-template').html();
         var template = Handlebars.compile(source);
         var html = template(context);
         $('.movies').append(html);
-        credits(type, id);
+        // credits(type, id);
     }
 }
 
@@ -130,18 +138,39 @@ function overview(string){
     return string
 }
 
-function credits(type,id){
-    $.ajax(
+// function credits(type, id){
+//     $.ajax(
+//         {
+//             url: 'https://api.themoviedb.org/3/' + type + '/' + id,
+//             method:'GET',
+//             data:{
+//                 api_key:'c4427306a0b122697ced9f53faf32324',
+//                 language:'it-IT'
+//             },
+//             append_to_response: 'credits',
+//             success: function(resp){
+//                 var genres = resp.genres;
+//             },
+//             error: function(){
+//                 alert('Si è verificato un errore');
+//             }
+//         }
+//     );
+// }
+
+function arrayGenres(type) {
+        $.ajax(
         {
-            url: 'https://api.themoviedb.org/3/' + type + '/' + id,
+            url: 'https://api.themoviedb.org/3/genre/'+type+'/list',
             method:'GET',
             data:{
-                api_key:'6cdc8707c60410cd9aef476067301b80',
+                api_key:'c4427306a0b122697ced9f53faf32324',
                 language:'it-IT'
             },
-            append_to_response: 'credits',
             success: function(resp){
                 var genres = resp.genres;
+                printG(genres, type);
+
             },
             error: function(){
                 alert('Si è verificato un errore');
@@ -150,53 +179,38 @@ function credits(type,id){
     );
 }
 
-function arrayGenres(type) {
-        $.ajax(
-        {
-            url: 'https://api.themoviedb.org/3/genre/'+type+'/list',
-            method:'GET',
-            data:{
-                api_key:'6cdc8707c60410cd9aef476067301b80',
-                language:'it-IT'
-            },
-            success: function(resp){
-                var genres = resp.genres;
-                printG(genres);
-
-            },
-            error: function(){
-                alert('Si è verificato un errore');
-            }
+function printG(array, type){
+    if(type == 'movie'){
+        for (var i = 0; i < array.length; i++) {
+            var context = {
+            id: array[i].id,
+            generiMovie:  array[i].name
+            };
+            var source = $('#genres-template-movie').html();
+            var template = Handlebars.compile(source);
+            var html = template(context);
+            $('select.movie').append(html);
         }
-    )
-
-}
-
-function printG(array){
-    for (var i = 0; i < array.length; i++) {
-        console.log(array[i]);
-
-        var context = {
-        id: array[i].id,
-        name:  array[i].name
-        };
-
-        var source = $('#genres-template').html();
-        var template = Handlebars.compile(source);
-        var html = template(context);
-        $('.genres .button').append(html);
+    }else if(type=='tv'){
+        for (var i = 0; i < array.length; i++) {
+            var context = {
+            id: array[i].id,
+            generitv:  array[i].name
+            };
+            var source = $('#genres-template-tv').html();
+            var template = Handlebars.compile(source);
+            var html = template(context);
+            $('select.tv').append(html);
+        }
     }
 }
 
 function showGenres(){
-    $('aside').animate({width: '250px'}, 200);
+    $('aside').animate({width: '290px'}, 200);
     $('aside .genres').toggle();
 
     setTimeout(function(){
-        $('aside .button').slideDown();
+        $('aside select').slideDown();
     }, 200);
     $('.arrow').toggleClass('rotate');
-
-    // $('aside .arrow').animate({transform: rotate(180deg)});
-
 }

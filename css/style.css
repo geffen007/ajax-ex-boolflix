@@ -80,7 +80,9 @@ aside {
 
 aside .arrow{
     margin-left: 10px;
-    transition: 0.3s,
+    transition: 0.3s;
+    z-index: 100;
+
 }
 
 aside .genres{
@@ -92,15 +94,16 @@ aside .genres{
     flex-direction: column;
     padding: 10px;
     display: none;
+    overflow: auto;
 }
 
-aside .button {
+aside .select {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-aside button {
+aside option {
     border: none;
     color: white;
     background-color: black;
@@ -108,20 +111,9 @@ aside button {
     font-size: 20px;
 }
 
-.hideGenres{
-    display: none;
-}
-
-.showGenres {
-    display: flex;
-    flex-direction: column;
-}
-
 .rotate {
     transform: rotate(180deg);
-    margin-left: 260px;
 }
-
 
 .movies {
     display: flex;
@@ -132,7 +124,8 @@ aside button {
 
 .cover {
     height: 456px;
-    width: 342px;
+    /* width: 342px; */
+    flex-basis: 342px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

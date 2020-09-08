@@ -25,7 +25,16 @@
             <main>
                 <aside>
                     <div class="genres hideGenres">
-                        <div class="button"></div>
+                        <p>Film</p>
+                        <select class="select movie" name="Film">
+                            <option value="all">Tutti</option>
+                        </select>
+                        <p>Serie TV</p>
+                        <select class="select tv" name="Serie TV">
+                            <option value="all">Tutti</option>
+                        </select>
+
+
                     </div>
                     <div class="arrow">
                         <i class="fas fa-chevron-right"></i>
@@ -59,8 +68,12 @@
             </div>
         </script>
 
-        <script id="genres-template" type="text/x-handlebars-template">
-            <button type="button" name="{{name}}">{{name}}</button>
+
+        <script id="genres-template-movie" type="text/x-handlebars-template">
+                <option value="{{id}}">{{generiMovie}}</option>
+        </script>
+        <script id="genres-template-tv" type="text/x-handlebars-template">
+                <option value="{{id}}">{{generitv}}</option>
         </script>
 
 
