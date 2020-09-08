@@ -7,7 +7,8 @@ $(document).ready(function() {
     search('*','', urlTrend);
 
     var select= $('select.movie').change(function(){
-        console.log(select.val());
+
+
     });
 
     $('aside .arrow').click(function(){
@@ -37,7 +38,7 @@ function search(input, type, url){
             if (data.total_results != 0){
                 var response = data.results;
                 handlebars(response, type);
-            } else {
+                } else {
                 noResult();
             }
         },
@@ -57,6 +58,7 @@ function handlebars(resp, type){
         var title = resp[i].title || resp[i].name;
         var id = resp[i].id;
         var genre_ids = resp[i].genre_ids;
+        var cast = credits(type, id);
         var context = {
         poster_path: poster(resp[i].poster_path, title),
         title: title,
@@ -67,13 +69,15 @@ function handlebars(resp, type){
         overview: overview(resp[i].overview),
         id : id,
         genre_ids: genre_ids,
+        cast: cast,
         };
+
 
         var source = $('#movie-template').html();
         var template = Handlebars.compile(source);
         var html = template(context);
         $('.movies').append(html);
-        // credits(type, id);
+
     }
 }
 
@@ -138,25 +142,51 @@ function overview(string){
     return string
 }
 
-// function credits(type, id){
-//     $.ajax(
-//         {
-//             url: 'https://api.themoviedb.org/3/' + type + '/' + id,
-//             method:'GET',
-//             data:{
-//                 api_key:'c4427306a0b122697ced9f53faf32324',
-//                 language:'it-IT'
-//             },
-//             append_to_response: 'credits',
-//             success: function(resp){
-//                 var genres = resp.genres;
-//             },
-//             error: function(){
-//                 alert('Si è verificato un errore');
-//             }
-//         }
-//     );
-// }
+function credits(type, id){
+    if (type==''){
+        type = 'movie';
+    }
+    $.ajax(
+        {
+            url: 'https://api.themoviedb.org/3/' + type + '/' + id + '/credits',
+            method:'GET',
+            data:{
+                api_key:'c4427306a0b122697ced9f53faf32324',
+                language:'it-IT'
+            },
+            success: function(resp){
+                var cast = resp.cast;
+                cast = printCast(cast, id);
+                return cast;
+            },
+            error: function(){
+
+            }
+        }
+    );
+
+}
+
+function printCast(arrayCast, id){
+
+    var cast = [];
+    var i = 0;
+    while (i < 5 && i < arrayCast.length){
+        if (i < 4){
+            cast += arrayCast[i].name + ', ';
+        } else {
+            cast += arrayCast[i].name;
+        }
+        i++;
+    }
+    var source = $('#printCast').html();
+    var template = Handlebars.compile(source);
+    var context = {
+    cast: cast
+}
+    var html = template(context);
+    $('.cover#'+id+' .cast').append(html);
+}
 
 function arrayGenres(type) {
         $.ajax(
@@ -214,3 +244,13 @@ function showGenres(){
     }, 200);
     $('.arrow').toggleClass('rotate');
 }
+
+
+// FILTRO GENERI
+$('select.movie').change(function() {
+    var genere = $(this).val();
+    console.log(genere);
+    var cover = $('.cover p.hidden').find(genere);
+    console.log(cover);
+
+});

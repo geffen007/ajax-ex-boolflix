@@ -51,15 +51,16 @@
         </div>
 
         <script id="movie-template" type="text/x-handlebars-template">
-            <div class="cover">
-                <div class="details">
-                    <h2>{{title}}</h2>
+            <div class="cover" id="{{id}}" data-genre="{{genre_ids}}" data-id="{{id}}">
+                <div class="details ">
+                    <h2>{{title}}{{id}}</h2>
                     <p>Titolo Originale: {{original_title}}</p>
                     <p class="lang">Lingua originale:
                         {{{original_language}}}
                     </p>
                     <p class="voto">Voto: {{{vote_average}}}</p>
-                    <p class="genre">{{{genre}}}</p>
+                    <!-- <p class="genre">{{{genre}}}</p> -->
+                    <p class="cast">cast: </p>
                     <div class="text">{{{overview}}}</div>
                 </div>
                 <div class="poster">
@@ -74,6 +75,10 @@
         </script>
         <script id="genres-template-tv" type="text/x-handlebars-template">
                 <option value="{{id}}">{{generitv}}</option>
+        </script>
+
+        <script id="printCast" type="text/x-handlebars-template">
+                {{cast}}
         </script>
 
 

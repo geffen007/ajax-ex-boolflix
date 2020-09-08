@@ -124,7 +124,6 @@ aside option {
 
 .cover {
     height: 456px;
-    /* width: 342px; */
     flex-basis: 342px;
     display: flex;
     flex-direction: column;
