@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    arrayGenresTV();
+    arrayGenres('movie');
+    arrayGenres('tv');
+
     $('aside .arrow').click(function(){
         showGenres();
     });
@@ -148,10 +150,10 @@ function credits(type,id){
     );
 }
 
-function arrayGenresTV() {
+function arrayGenres(type) {
         $.ajax(
         {
-            url: 'https://api.themoviedb.org/3/genre/tv/list',
+            url: 'https://api.themoviedb.org/3/genre/'+type+'/list',
             method:'GET',
             data:{
                 api_key:'6cdc8707c60410cd9aef476067301b80',
@@ -179,9 +181,6 @@ function printG(array){
         name:  array[i].name
         };
 
-
-
-
         var source = $('#genres-template').html();
         var template = Handlebars.compile(source);
         var html = template(context);
@@ -192,7 +191,6 @@ function printG(array){
 function showGenres(){
     $('aside').animate({width: '250px'}, 200);
     $('aside .genres').toggle();
-
 
     setTimeout(function(){
         $('aside .button').slideDown();
