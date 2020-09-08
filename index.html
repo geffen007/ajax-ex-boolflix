@@ -51,7 +51,7 @@
         </div>
 
         <script id="movie-template" type="text/x-handlebars-template">
-            <div class="cover" id="{{id}}" data-genre="{{genre_ids}}" data-id="{{id}}">
+            <div class="cover {{{genre_ids}}}" id="{{id}}" data-id="{{id}}">
                 <div class="details ">
                     <h2>{{title}}{{id}}</h2>
                     <p>Titolo Originale: {{original_title}}</p>
@@ -71,10 +71,10 @@
 
 
         <script id="genres-template-movie" type="text/x-handlebars-template">
-                <option value="{{id}}">{{generiMovie}}</option>
+                <option value="ids{{id}}">{{generiMovie}}</option>
         </script>
         <script id="genres-template-tv" type="text/x-handlebars-template">
-                <option value="{{id}}">{{generitv}}</option>
+                <option value="ids{{id}}">{{generitv}}</option>
         </script>
 
         <script id="printCast" type="text/x-handlebars-template">

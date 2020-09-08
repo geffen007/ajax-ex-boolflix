@@ -8,6 +8,17 @@ $(document).ready(function() {
 
     var select= $('select.movie').change(function(){
 
+        var selectedGenre = $(this).val().toString();
+        console.log(selectedGenre);
+        $('.cover').each(function () {
+            var genre = $(this);
+            console.log(genre);
+            if (genre.hasClass(selectedGenre)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
 
     });
 
@@ -57,7 +68,7 @@ function handlebars(resp, type){
     for (var i = 0; i < resp.length; i++) {
         var title = resp[i].title || resp[i].name;
         var id = resp[i].id;
-        var genre_ids = resp[i].genre_ids;
+        var genre_ids = genreidClass(resp[i].genre_ids);
         var cast = credits(type, id);
         var context = {
         poster_path: poster(resp[i].poster_path, title),
@@ -79,6 +90,14 @@ function handlebars(resp, type){
         $('.movies').append(html);
 
     }
+}
+
+function genreidClass(array) {
+    var arrayS= '';
+    for (var i = 0; i < array.length; i++) {
+        arrayS = arrayS +' ids'+ array[i]
+    }
+    return arrayS;
 }
 
 function genre(resp, resp2){
@@ -244,13 +263,3 @@ function showGenres(){
     }, 200);
     $('.arrow').toggleClass('rotate');
 }
-
-
-// FILTRO GENERI
-$('select.movie').change(function() {
-    var genere = $(this).val();
-    console.log(genere);
-    var cover = $('.cover p.hidden').find(genere);
-    console.log(cover);
-
-});
